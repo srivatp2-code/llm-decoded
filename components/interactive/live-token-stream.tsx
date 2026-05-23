@@ -4,10 +4,18 @@ import { useMemo, useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { encode, decode } from "gpt-tokenizer";
 
+const PALETTE = [
+  "var(--tile-cyan)",
+  "var(--tile-pink)",
+  "var(--tile-orange)",
+  "var(--tile-green)",
+  "var(--tile-violet)",
+  "var(--tile-yellow)",
+];
+
 /**
- * Live tokenizer that runs as you type.
- * Tokens appear as letterpress-style chips, falling into a horizontal sequence.
- * Each chip shows the token text + its id beneath.
+ * Live tokenizer — letterpress chips that update as you type.
+ * Dark cinematic styling.
  */
 export function LiveTokenStream({
   initial = "What does ChatGPT actually do?",
@@ -36,7 +44,6 @@ export function LiveTokenStream({
     }
   }, [text]);
 
-  // Auto-resize textarea
   useEffect(() => {
     const ta = textareaRef.current;
     if (!ta) return;
@@ -50,29 +57,21 @@ export function LiveTokenStream({
 
   return (
     <div className="space-y-6">
-      {/* Input — looks like writing in a paper margin */}
       <div className="relative">
-        <span
-          aria-hidden
-          className="absolute -left-6 top-0 font-display italic text-[var(--color-ink-faded)] text-[18px] leading-[1.5] select-none"
-        >
-          ›
-        </span>
         <textarea
           ref={textareaRef}
           value={text}
           onChange={(e) => setText(e.target.value)}
           aria-label="Type to tokenize"
           rows={1}
-          className="w-full block resize-none bg-transparent border-0 border-b border-[var(--color-rule-strong)] focus:border-[var(--color-sienna)] focus:outline-none transition-colors py-2 font-display italic text-[28px] md:text-[36px] leading-[1.3] text-[var(--color-ink)] placeholder:text-[var(--color-ink-ghost)]"
+          className="w-full block resize-none bg-transparent border-0 border-b border-[var(--color-line)] focus:border-[var(--color-blue-3)] focus:outline-none transition-colors py-3 font-display text-[22px] md:text-[28px] leading-[1.3] text-[var(--color-text)] placeholder:text-[var(--color-text-faint)]"
           spellCheck={false}
           placeholder="Type anything…"
         />
       </div>
 
-      {/* The token stream itself */}
       <div className="min-h-[60px]">
-        <p className="chapter-number mb-3">tokens — what the model sees</p>
+        <p className="eyebrow mb-3">tokens — what the model sees</p>
         <div className="flex flex-wrap gap-1.5">
           <AnimatePresence mode="popLayout" initial={false}>
             {tokens.map((tok, i) => {
@@ -80,11 +79,12 @@ export function LiveTokenStream({
                 .replace(/ /g, "·")
                 .replace(/\n/g, "↵")
                 .replace(/\t/g, "→");
+              const color = PALETTE[i % PALETTE.length];
               return (
                 <motion.span
                   key={`${i}-${tok.id}`}
                   layout
-                  initial={{ opacity: 0, y: -8, scale: 0.85 }}
+                  initial={{ opacity: 0, y: -6, scale: 0.85 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.85, transition: { duration: 0.12 } }}
                   transition={{
@@ -93,11 +93,16 @@ export function LiveTokenStream({
                     damping: 30,
                     mass: 0.4,
                   }}
-                  className="chip"
+                  className="inline-flex items-baseline gap-1.5 px-2 py-1 rounded-md font-mono text-[13px]"
+                  style={{
+                    background: "rgba(255,255,255,0.04)",
+                    border: `1px solid ${color}`,
+                    color: color,
+                  }}
                   title={`token id ${tok.id}`}
                 >
                   <span>{display}</span>
-                  <span className="chip-id">{tok.id}</span>
+                  <span className="font-mono text-[9px] opacity-50">{tok.id}</span>
                 </motion.span>
               );
             })}
@@ -106,36 +111,24 @@ export function LiveTokenStream({
       </div>
 
       {showStats && (
-        <div className="grid grid-cols-3 gap-6 pt-4 border-t border-[var(--color-rule)]">
-          <Stat label="characters" value={charCount.toString()} />
-          <Stat label="tokens" value={tokenCount.toString()} accent />
-          <Stat label="chars per token" value={ratio} />
+        <div className="grid grid-cols-3 gap-6 pt-5 border-t border-[var(--color-line)]">
+          {[
+            { label: "characters", value: charCount.toString() },
+            { label: "tokens", value: tokenCount.toString(), accent: true },
+            { label: "chars per token", value: ratio },
+          ].map((s) => (
+            <div key={s.label}>
+              <div
+                className="font-display font-semibold text-[32px] leading-none mb-1.5"
+                style={{ color: s.accent ? "var(--color-blue-3)" : "var(--color-text)" }}
+              >
+                {s.value}
+              </div>
+              <div className="eyebrow">{s.label}</div>
+            </div>
+          ))}
         </div>
       )}
-    </div>
-  );
-}
-
-function Stat({
-  label,
-  value,
-  accent,
-}: {
-  label: string;
-  value: string;
-  accent?: boolean;
-}) {
-  return (
-    <div>
-      <div
-        className="font-display text-[36px] leading-none"
-        style={{
-          color: accent ? "var(--color-sienna)" : "var(--color-ink)",
-        }}
-      >
-        {value}
-      </div>
-      <div className="chapter-number mt-1">{label}</div>
     </div>
   );
 }
