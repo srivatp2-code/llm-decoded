@@ -1,6 +1,8 @@
 import { TrackHero, Section } from "@/components/layout/track-hero";
 import { Callout } from "@/components/ui/callout";
 import { CodeBlock } from "@/components/ui/code-block";
+import { ChapterEnd } from "@/components/layout/chapter-end";
+import { CinematicFooter } from "@/components/layout/cinematic-footer";
 
 export const metadata = { title: "Building Agents — LLM Decoded" };
 
@@ -227,6 +229,9 @@ asyncio.run(research_topic("RLHF vs DPO"))`}</CodeBlock>
           The field changes fast. The fundamentals don&apos;t. You know them now. Go build.
         </p>
       </Section>
+
+      <ChapterEnd next={{ href: "/pm", label: "Chapter 06 — The PM lens" }} />
+      <CinematicFooter />
     </article>
   );
 }

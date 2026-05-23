@@ -1,6 +1,8 @@
 import { TrackHero, Section } from "@/components/layout/track-hero";
 import { Callout } from "@/components/ui/callout";
 import { AttentionDemo } from "@/components/interactive/attention-demo";
+import { ChapterEnd } from "@/components/layout/chapter-end";
+import { CinematicFooter } from "@/components/layout/cinematic-footer";
 
 export const metadata = { title: "The Transformer — LLM Decoded" };
 
@@ -148,6 +150,9 @@ Next token`}</pre>
           the on sat cat the&quot;.
         </p>
       </Section>
+
+      <ChapterEnd next={{ href: "/training", label: "Chapter 03 — Training" }} />
+      <CinematicFooter />
     </article>
   );
 }

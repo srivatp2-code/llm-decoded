@@ -38,9 +38,9 @@ export function TemperatureDemo() {
   const maxProb = Math.max(...probs.map((p) => p.prob));
 
   return (
-    <div className="surface-card p-6 md:p-8 my-8">
+    <div className="float-card p-6 md:p-8 my-8">
       <h3 className="text-xl font-semibold mb-1">Sampling temperature</h3>
-      <p className="text-sm text-[var(--color-text-secondary)] mb-6">
+      <p className="text-sm text-[var(--color-text-soft)] mb-6">
         Drag the slider. Low temperature → confident, repetitive. High temperature → creative,
         unhinged.
       </p>
@@ -50,7 +50,7 @@ export function TemperatureDemo() {
           <label className="text-xs uppercase tracking-wider text-[var(--color-text-muted)]">
             Temperature
           </label>
-          <span className="font-mono text-sm text-[var(--color-accent)]">{temp.toFixed(2)}</span>
+          <span className="font-mono text-sm text-[var(--color-blue-3)]">{temp.toFixed(2)}</span>
         </div>
         <input
           type="range"
@@ -59,7 +59,7 @@ export function TemperatureDemo() {
           step={0.05}
           value={temp}
           onChange={(e) => setTemp(parseFloat(e.target.value))}
-          className="w-full accent-[var(--color-accent)]"
+          className="w-full accent-[var(--color-blue-3)]"
           aria-label="Temperature"
         />
         <div className="flex justify-between text-xs text-[var(--color-text-muted)] mt-1">
@@ -69,14 +69,14 @@ export function TemperatureDemo() {
         </div>
       </div>
 
-      <div className="mb-2 text-sm text-[var(--color-text-secondary)] font-mono">
-        Prompt: <span className="text-[var(--color-text-primary)]">&quot;The cat sat on the ___&quot;</span>
+      <div className="mb-2 text-sm text-[var(--color-text-soft)] font-mono">
+        Prompt: <span className="text-[var(--color-text)]">&quot;The cat sat on the ___&quot;</span>
       </div>
 
       <div className="space-y-2 mt-4">
         {probs.map((p) => (
           <div key={p.token} className="flex items-center gap-3">
-            <div className="w-24 text-sm font-mono text-[var(--color-text-secondary)] text-right shrink-0">
+            <div className="w-24 text-sm font-mono text-[var(--color-text-soft)] text-right shrink-0">
               {p.token}
             </div>
             <div className="flex-1 h-7 bg-[var(--color-surface-2)] rounded-md overflow-hidden relative">
@@ -85,7 +85,7 @@ export function TemperatureDemo() {
                 style={{
                   background:
                     p.prob === maxProb
-                      ? "linear-gradient(90deg, var(--color-accent-deep), var(--color-accent))"
+                      ? "linear-gradient(90deg, var(--color-blue-1), var(--color-blue-3))"
                       : "var(--color-surface-3)",
                 }}
                 animate={{ width: `${p.prob * 100}%` }}

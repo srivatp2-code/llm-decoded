@@ -1,5 +1,7 @@
 import { TrackHero, Section } from "@/components/layout/track-hero";
 import { Callout } from "@/components/ui/callout";
+import { ChapterEnd } from "@/components/layout/chapter-end";
+import { CinematicFooter } from "@/components/layout/cinematic-footer";
 
 export const metadata = { title: "Using LLMs — LLM Decoded" };
 
@@ -131,6 +133,9 @@ export default function UsingLLMsPage() {
           and occasionally hilariously wrong on things a 6-year-old could do. Plan for that.
         </Callout>
       </Section>
+
+      <ChapterEnd next={{ href: "/agents", label: "Chapter 05 — Building Agents" }} />
+      <CinematicFooter />
     </article>
   );
 }

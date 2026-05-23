@@ -1,6 +1,8 @@
 import { TrackHero } from "@/components/layout/track-hero";
 import { Callout } from "@/components/ui/callout";
 import { FadeUp, Stagger, StaggerItem } from "@/components/motion/primitives";
+import { ChapterEnd } from "@/components/layout/chapter-end";
+import { CinematicFooter } from "@/components/layout/cinematic-footer";
 
 export const metadata = { title: "The AI PM Lens — LLM Decoded" };
 
@@ -130,6 +132,9 @@ export default function PMPage() {
           </Callout>
         </FadeUp>
       </section>
+
+      <ChapterEnd next={null} />
+      <CinematicFooter />
     </article>
   );
 }

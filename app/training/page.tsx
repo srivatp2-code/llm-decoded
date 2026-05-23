@@ -1,6 +1,8 @@
 import { TrackHero, Section } from "@/components/layout/track-hero";
 import { Callout } from "@/components/ui/callout";
 import { TemperatureDemo } from "@/components/interactive/temperature-demo";
+import { ChapterEnd } from "@/components/layout/chapter-end";
+import { CinematicFooter } from "@/components/layout/cinematic-footer";
 
 export const metadata = { title: "Training — LLM Decoded" };
 
@@ -144,6 +146,9 @@ export default function TrainingPage() {
           gains are dramatic — from 13% to 83% on competition math, in some cases.
         </p>
       </Section>
+
+      <ChapterEnd next={{ href: "/using-llms", label: "Chapter 04 — Using LLMs" }} />
+      <CinematicFooter />
     </article>
   );
 }

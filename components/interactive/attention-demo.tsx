@@ -41,9 +41,9 @@ export function AttentionDemo() {
   const weights = useMemo(() => ATTENTION[activeRow], [activeRow]);
 
   return (
-    <div className="surface-card p-6 md:p-8 my-8">
+    <div className="float-card p-6 md:p-8 my-8">
       <h3 className="text-xl font-semibold mb-1">Attention, visualized</h3>
-      <p className="text-sm text-[var(--color-text-secondary)] mb-6">
+      <p className="text-sm text-[var(--color-text-soft)] mb-6">
         Hover any token. The highlighted attention shows which past tokens it&apos;s &quot;looking
         at&quot; — the heart of every transformer.
       </p>
@@ -61,12 +61,12 @@ export function AttentionDemo() {
               className="px-4 py-2.5 rounded-lg font-mono text-sm relative cursor-pointer focus:outline-none"
               style={{
                 background: isActive
-                  ? "var(--color-accent)"
+                  ? "var(--color-blue-3)"
                   : weight > 0.01
-                    ? `rgba(167, 139, 250, ${0.1 + weight * 0.8})`
+                    ? `rgba(77, 141, 255, ${0.1 + weight * 0.8})`
                     : "var(--color-surface-2)",
-                color: isActive ? "var(--color-canvas)" : "var(--color-text-primary)",
-                border: `1px solid ${isActive ? "var(--color-accent)" : "var(--color-border)"}`,
+                color: isActive ? "var(--color-bg)" : "var(--color-text)",
+                border: `1px solid ${isActive ? "var(--color-blue-3)" : "var(--color-line)"}`,
               }}
               animate={{ scale: isActive ? 1.05 : 1 }}
             >
@@ -81,8 +81,8 @@ export function AttentionDemo() {
         })}
       </div>
 
-      <div className="text-center text-sm text-[var(--color-text-secondary)]">
-        Token <span className="font-mono text-[var(--color-accent)]">&quot;{SENTENCE[activeRow]}&quot;</span>{" "}
+      <div className="text-center text-sm text-[var(--color-text-soft)]">
+        Token <span className="font-mono text-[var(--color-blue-3)]">&quot;{SENTENCE[activeRow]}&quot;</span>{" "}
         is attending to{" "}
         {weights
           .map((w, i) => ({ tok: SENTENCE[i], w }))
@@ -129,10 +129,10 @@ export function AttentionDemo() {
                           background:
                             j > i
                               ? "transparent"
-                              : `rgba(167, 139, 250, ${0.08 + v * 0.92})`,
+                              : `rgba(77, 141, 255, ${0.08 + v * 0.92})`,
                           color: v > 0.4 ? "white" : "var(--color-text-muted)",
                           border:
-                            j > i ? "1px dashed var(--color-border)" : "1px solid var(--color-border)",
+                            j > i ? "1px dashed var(--color-line)" : "1px solid var(--color-line)",
                         }}
                       >
                         {j > i ? "—" : v.toFixed(2)}
