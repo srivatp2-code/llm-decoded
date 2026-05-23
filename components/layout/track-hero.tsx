@@ -1,40 +1,45 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { motion } from "framer-motion";
+
+const ROMAN: Record<string, string> = {
+  "01": "I",
+  "02": "II",
+  "03": "III",
+  "04": "IV",
+  "05": "V",
+  "06": "VI",
+};
 
 export function TrackHero({
   number,
   title,
   tagline,
-  color,
 }: {
   number: string;
   title: string;
   tagline: string;
-  color: string;
+  // color prop kept for back-compat with old call sites; unused in manuscript style
+  color?: string;
 }) {
+  const roman = ROMAN[number] ?? number;
   return (
-    <header className="px-6 lg:px-8 pt-16 pb-12 max-w-4xl mx-auto">
+    <header className="px-6 lg:px-10 max-w-[920px] mx-auto pt-28 pb-12">
       <Link
         href="/"
-        className="inline-flex items-center gap-1.5 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors mb-8"
+        className="folio hover:text-[var(--color-sienna)] transition-colors inline-block mb-10"
       >
-        <ArrowLeft size={14} /> All tracks
+        ‹ frontispiece
       </Link>
       <motion.div
-        initial={{ opacity: 0, y: 12 }}
+        initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        <p className="font-mono text-sm mb-3" style={{ color }}>
-          {number} — Track
-        </p>
-        <h1 className="text-4xl md:text-6xl font-semibold tracking-tight leading-[1.05] mb-5">
-          {title}
-        </h1>
-        <p className="text-xl md:text-2xl text-[var(--color-text-secondary)] max-w-2xl leading-snug">
+        <p className="chapter-number mb-3">Chapter {roman}</p>
+        <h1 className="display-xl mb-6">{title}.</h1>
+        <p className="font-display italic text-[22px] md:text-[26px] text-[var(--color-ink-soft)] leading-snug max-w-[640px]">
           {tagline}
         </p>
       </motion.div>
@@ -52,12 +57,10 @@ export function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="px-6 lg:px-8 py-16 max-w-4xl mx-auto">
-      <div className="mb-8">
-        <p className="font-mono text-xs text-[var(--color-accent)] mb-2">§ {number}</p>
-        <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">{title}</h2>
-      </div>
-      <div className="prose">{children}</div>
+    <section className="px-6 lg:px-10 max-w-[920px] mx-auto py-12 relative">
+      <p className="chapter-number mb-4">§ {number}</p>
+      <h2 className="display-md mb-8">{title}</h2>
+      <div className="book-prose no-drop-cap">{children}</div>
     </section>
   );
 }

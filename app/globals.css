@@ -1,76 +1,69 @@
 @import "tailwindcss";
 
 @theme {
-  /* Color tokens — dark-first design */
-  --color-canvas: #0a0a13;
-  --color-surface: #181830;
-  --color-surface-2: #232347;
-  --color-surface-3: #2e2e5c;
-  --color-border: rgba(255, 255, 255, 0.12);
-  --color-border-strong: rgba(255, 255, 255, 0.22);
+  /* === The Manuscript palette ===
+     Warm paper, deep ink, sienna for emphasis, deep blue for diagrams.
+     Designed to look like a beautifully printed textbook. */
+  --color-paper: #f5f1e8;
+  --color-paper-deep: #ebe4d2;
+  --color-paper-margin: #efe9d8;
 
-  --color-text-primary: #f5f5fa;
-  --color-text-secondary: #a8a8c0;
-  --color-text-muted: #6b6b85;
+  --color-ink: #1a1814;
+  --color-ink-soft: #4a4438;
+  --color-ink-faded: #80766a;
+  --color-ink-ghost: #b8aea0;
 
-  --color-accent: #a78bfa;
-  --color-accent-soft: #c4b5fd;
-  --color-accent-deep: #7c3aed;
-  --color-cyan: #67e8f9;
-  --color-amber: #fbbf24;
-  --color-emerald: #34d399;
-  --color-rose: #fb7185;
+  --color-sienna: #c2410c;          /* accent — used sparingly for emphasis */
+  --color-sienna-soft: #e8825a;
+  --color-marker: #1e3a8a;          /* deep ink blue — for diagrams */
+  --color-marker-light: #4a6db5;
+  --color-highlight: #fde7884d;     /* translucent yellow */
+  --color-rule: rgba(26, 24, 20, 0.12);
+  --color-rule-strong: rgba(26, 24, 20, 0.2);
 
   /* Typography */
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-
-  /* Motion */
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --font-display: var(--font-display); /* Instrument Serif */
+  --font-body: var(--font-body);       /* Inter */
+  --font-mono: var(--font-mono);       /* JetBrains Mono */
+  --font-hand: var(--font-hand);       /* Caveat */
 }
 
 html {
-  background: var(--color-canvas);
-  color: var(--color-text-primary);
-  font-family: var(--font-sans), system-ui, sans-serif;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
 body {
-  background: var(--color-canvas);
-  color: var(--color-text-primary);
-  min-height: 100dvh;
+  background: var(--color-paper);
   background-image:
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(124, 58, 237, 0.15), transparent),
-    radial-gradient(ellipse 60% 40% at 80% 120%, rgba(103, 232, 249, 0.08), transparent);
-  background-attachment: fixed;
+    /* subtle paper grain */
+    radial-gradient(rgba(26, 24, 20, 0.025) 1px, transparent 1px),
+    radial-gradient(rgba(26, 24, 20, 0.018) 1px, transparent 1px);
+  background-size: 3px 3px, 7px 7px;
+  background-position: 0 0, 1px 1px;
+  color: var(--color-ink);
+  min-height: 100dvh;
 }
 
-/* Selection */
 ::selection {
-  background: var(--color-accent-deep);
-  color: white;
+  background: var(--color-sienna);
+  color: var(--color-paper);
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
-::-webkit-scrollbar-track {
-  background: var(--color-canvas);
-}
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-surface-3);
-  border-radius: 10px;
+  background: var(--color-rule-strong);
+  border-radius: 8px;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-accent-deep);
-}
+::-webkit-scrollbar-thumb:hover { background: var(--color-ink-faded); }
 
-/* Reduce motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -79,79 +72,195 @@ body {
   }
 }
 
-/* Reusable utilities */
-@utility text-gradient {
-  background: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-accent-soft) 50%, var(--color-cyan) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+/* === Typographic utilities === */
+@utility font-display {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+@utility font-hand {
+  font-family: var(--font-hand), cursive;
+  font-weight: 500;
+}
+@utility font-mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
 }
 
-@utility surface-card {
-  background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-surface-2) 100%);
-  border: 1px solid var(--color-border);
-  border-radius: 16px;
-  backdrop-filter: blur(20px);
+/* Display headings */
+.display-xl {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(48px, 9vw, 112px);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+.display-lg {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(40px, 6vw, 72px);
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+.display-md {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
 }
 
-@utility surface-card-hover {
-  transition: border-color 250ms var(--ease-out-expo), transform 250ms var(--ease-out-expo), box-shadow 250ms var(--ease-out-expo);
+/* Chapter numbers — small caps */
+.chapter-number {
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-ink-faded);
 }
 
-@utility glow-accent {
-  box-shadow:
-    0 0 0 1px rgba(167, 139, 250, 0.2),
-    0 8px 32px -8px rgba(124, 58, 237, 0.3);
+/* Body prose — generous, like a real book */
+.book-prose {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 18px;
+  line-height: 1.7;
+  max-width: 62ch;
+  color: var(--color-ink);
+}
+.book-prose p { margin: 0 0 1.2em 0; }
+.book-prose p:first-of-type::first-letter {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 4em;
+  float: left;
+  line-height: 0.85;
+  margin: 0.05em 0.08em 0 -0.04em;
+  color: var(--color-sienna);
+}
+.book-prose strong {
+  font-weight: 600;
+  background: linear-gradient(transparent 62%, var(--color-highlight) 62%);
+  padding: 0 1px;
+}
+.book-prose em {
+  font-style: italic;
+  color: var(--color-ink-soft);
+}
+.book-prose a {
+  color: var(--color-marker);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(30, 58, 138, 0.4);
+}
+.book-prose a:hover {
+  text-decoration-color: var(--color-marker);
 }
 
-/* Glass nav */
-@utility glass {
-  background: rgba(13, 13, 24, 0.6);
-  backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid var(--color-border);
+/* Inline code */
+.book-prose code {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.88em;
+  background: var(--color-paper-deep);
+  padding: 1px 6px;
+  border-radius: 3px;
+  color: var(--color-marker);
+}
+
+/* Pull quotes / blockquotes */
+.book-prose blockquote {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.3em;
+  line-height: 1.35;
+  color: var(--color-ink-soft);
+  border-left: 2px solid var(--color-sienna);
+  padding: 0.2em 0 0.2em 1em;
+  margin: 1.6em 0;
+  font-style: italic;
 }
 
 /* Code blocks */
-pre, code {
-  font-family: var(--font-mono), ui-monospace, "SF Mono", Monaco, monospace;
-}
-
 pre {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
-  padding: 16px 18px;
+  font-family: var(--font-mono), monospace;
+  background: #1a1814;
+  color: #ede5d4;
+  border-radius: 4px;
+  padding: 18px 20px;
   overflow-x: auto;
   font-size: 13px;
-  line-height: 1.6;
+  line-height: 1.65;
+  margin: 1.5em 0;
+  border: 1px solid var(--color-ink);
+  box-shadow: 4px 4px 0 var(--color-paper-deep);
 }
 
-code:not(pre code) {
-  background: var(--color-surface-2);
-  border: 1px solid var(--color-border);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 0.875em;
-  color: var(--color-accent-soft);
+/* Drop cap selection on first paragraph */
+.no-drop-cap p:first-of-type::first-letter {
+  font-family: inherit;
+  font-size: inherit;
+  float: none;
+  margin: 0;
+  color: inherit;
 }
 
-/* Prose adjustments */
-.prose {
-  max-width: 70ch;
-  line-height: 1.75;
-  color: var(--color-text-secondary);
+/* Rule (horizontal divider) — old-school manuscript flourish */
+.rule {
+  border: 0;
+  text-align: center;
+  margin: 4em auto;
+  height: 1em;
+  position: relative;
+  width: 100%;
+  max-width: 200px;
 }
-.prose strong {
-  color: var(--color-text-primary);
-  font-weight: 600;
+.rule::before {
+  content: "❦";
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 22px;
+  color: var(--color-sienna);
+  background: var(--color-paper);
+  padding: 0 12px;
+  position: relative;
+  z-index: 1;
 }
-.prose a {
-  color: var(--color-accent-soft);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-thickness: 1px;
-  text-decoration-color: rgba(167, 139, 250, 0.4);
+.rule::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--color-rule-strong);
+  z-index: 0;
 }
-.prose a:hover {
-  text-decoration-color: var(--color-accent);
+
+/* Folio (page number) style for chapter markers */
+.folio {
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--color-ink-faded);
+}
+
+/* Letterpress chip — used for tokens */
+.chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  padding: 4px 9px;
+  background: var(--color-paper-deep);
+  border: 1px solid var(--color-rule-strong);
+  border-radius: 3px;
+  font-family: var(--font-mono), monospace;
+  font-size: 13px;
+  color: var(--color-ink);
+  box-shadow: 1px 1px 0 var(--color-rule);
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.chip:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 2px 2px 0 var(--color-rule);
+}
+.chip-id {
+  font-size: 9px;
+  color: var(--color-ink-faded);
+  letter-spacing: 0.04em;
 }

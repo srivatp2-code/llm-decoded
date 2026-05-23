@@ -1,23 +1,35 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Instrument_Serif, Inter, JetBrains_Mono, Caveat } from "next/font/google";
 import "./globals.css";
-import { Nav } from "@/components/layout/nav";
-import { Footer } from "@/components/layout/footer";
+import { ChapterNav } from "@/components/layout/chapter-nav";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const instrument = Instrument_Serif({
+  variable: "--font-display",
+  weight: ["400"],
+  style: ["normal", "italic"],
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-body",
+  subsets: ["latin"],
+});
+
+const mono = JetBrains_Mono({
+  variable: "--font-mono",
+  subsets: ["latin"],
+});
+
+const hand = Caveat({
+  variable: "--font-hand",
+  weight: ["400", "500", "600"],
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "LLM Decoded — From tokens to AGI",
+  title: "LLM Decoded — A manuscript on large language models",
   description:
-    "An interactive course on large language models. Tokenization, transformers, training, and agents — visualized.",
+    "What actually happens when you press enter on ChatGPT? An illustrated, interactive manuscript on how large language models work — from tokens to agents.",
 };
 
 export default function RootLayout({
@@ -26,12 +38,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${instrument.variable} ${inter.variable} ${mono.variable} ${hand.variable}`}
     >
-      <body className="min-h-full flex flex-col">
-        <Nav />
-        <main className="flex-1 pt-16">{children}</main>
-        <Footer />
+      <body className="min-h-full">
+        <ChapterNav />
+        {children}
       </body>
     </html>
   );

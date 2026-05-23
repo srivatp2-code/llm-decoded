@@ -23,31 +23,37 @@ export function CodeBlock({
   };
 
   return (
-    <div className={cn("my-6 rounded-xl overflow-hidden border border-[var(--color-border)] bg-[var(--color-surface)]", className)}>
+    <div
+      className={cn(
+        "my-6 relative bg-[#1a1814] text-[#ede5d4] border border-[var(--color-ink)]",
+        className
+      )}
+      style={{ boxShadow: "4px 4px 0 var(--color-paper-deep)" }}
+    >
       {(filename || lang) && (
-        <div className="flex items-center justify-between px-4 py-2 border-b border-[var(--color-border)] bg-[var(--color-surface-2)]">
-          <span className="text-xs text-[var(--color-text-muted)] font-mono">
+        <div className="flex items-center justify-between px-4 py-2 border-b border-[#3a342c] bg-[#221f1a]">
+          <span className="font-mono text-[11px] text-[#a8a094] tracking-wider">
             {filename ?? lang}
           </span>
           <button
             onClick={onCopy}
-            className="text-xs text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] flex items-center gap-1.5 transition-colors"
+            className="font-mono text-[11px] text-[#a8a094] hover:text-[#ede5d4] flex items-center gap-1.5 transition-colors"
             aria-label="Copy code"
           >
             {copied ? (
               <>
-                <Check size={12} /> Copied
+                <Check size={11} /> copied
               </>
             ) : (
               <>
-                <Copy size={12} /> Copy
+                <Copy size={11} /> copy
               </>
             )}
           </button>
         </div>
       )}
-      <pre className="!border-0 !rounded-none !my-0">
-        <code className="!bg-transparent !p-0 !border-0 !text-[var(--color-text-primary)]">
+      <pre className="!my-0 !border-0 !shadow-none !rounded-none !bg-transparent">
+        <code className="!bg-transparent !p-0 !border-0">
           {children}
         </code>
       </pre>
